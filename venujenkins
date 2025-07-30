@@ -1,0 +1,43 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('ContinuousDownload')
+        {
+            steps
+            {
+                git 'https://github.com/IntelliqDevops/maven.git'
+            }
+        }
+        stage('ContinuousBuild')
+        {
+            steps
+            {
+                sh 'mvn package'
+            }
+        }
+        stage('ContinuousDeployement')
+        {
+            steps
+            {
+                sh 'scp /var/lib/jenkins/workspace/Declarative01/webapp/target/webapp.war ubuntu@172.31.90.2:/var/lib/tomcat10/webapps/venu.war'
+            }
+        }
+        stage('ContinuousTesting')
+        {
+            steps
+            {
+                git 'https://github.com/IntelliqDevops/FunctionalTesting.git'
+                sh 'java -jar /var/lib/jenkins/workspace/Declarative01/testing.jar'
+            }
+        }
+        stage('ContinuousDeliver')
+        {
+            steps
+            {
+                sh 'scp /var/lib/jenkins/workspace/Declarative01/webapp/target/webapp.war ubuntu@172.31.90.113:/var/lib/tomcat10/webapps/venuprod.war'
+            }
+        }
+    }
+}
