@@ -25,36 +25,6 @@ pipeline
                 }
             }
         }
-        stage('Deployement_Master')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.Deployment("Declarativepipelinewithsharedlibrary","172.31.90.2","venu")
-                }
-            }
-        }
-        stage('Testing_Master')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.gitDownload("FunctionalTesting")
-                    cicd.Testing("Declarativepipelinewithsharedlibrary")
-                }
-            }
-        }
-        stage('Delivery_Master')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.Deployment("Declarativepipelinewithsharedlibrary","172.31.90.113","prod")
-                }
-            }
-        }
+      
     }
 }
